@@ -36,7 +36,13 @@ INSULTS = [
     'You stare at frozen juice cans because they say, "concentrate".',
     "You're so stupid you tried to wake a sleeping bag.",
     "I don't know what makes you so stupid, but it really works!",
-    "Aww, it's so cute when you try to talk about things you don't understand."
+    "Aww, it's so cute when you try to talk about things you don't understand.",
+    "Am I getting smart with you? How would you know?",
+    "I'm not saying I hate you, but I would unplug your life support to charge my phone.",
+    "You must have been born on a highway because that's where most accidents happen.",
+    "You bring everyone a lot of joy, when you leave the room.",
+    "You shouldn't play hide and seek, no one would look for you.",
+    "I have neither the time nor the crayons to explain this to you."
 ]
 app = Flask(__name__)
 
@@ -59,13 +65,15 @@ def blame():
     
     if not guilty:
         members = hipchat_client.get_room_members(requesters_room)
-        if requester and requester in members:
-            members.remove(requester)
-            
+        
         guilty = '@' + random.choice(members) if members else 'all'
     
     if '--with-violence' in arguments:
         message = 'Hey ' + guilty + ' ! ' + random.choice(INSULTS) + ' (megusta)'
+    elif '-h' in arguments or '--help' in arguments:
+        message = "@" + requester + " I have neither the time nor the crayons to explain this to you."
+    elif 'why' in arguments:
+        message = "Because !!!!! https://labibliothequedaelinel.files.wordpress.com/2016/10/image.gif?w=656"
     else:
         message = 'I blame ' + guilty + ' ! >:-('
     
