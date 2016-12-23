@@ -56,6 +56,7 @@ def blame():
         
     requesters_room = _extract_requesters_room(request_data)
     arguments = _extract_arguments(request_data)
+    print(arguments)
     requester = _extract_requester(request_data)
     
     guilty = None

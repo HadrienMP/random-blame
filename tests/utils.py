@@ -9,7 +9,7 @@ class BotClient:
 
     def send_message(self, message, from_requester="Me", from_room="666"):
         data = self.build_message(requester=from_requester, room=from_room, message=message)
-        return self.app.post("/", data=str(data))
+        return self.app.post("/", data=json.dumps(data))
 
     def build_message(self, requester, room, message):
         return {
@@ -34,6 +34,10 @@ class BotClient:
             },
             'webhook_id': 578829
         }
+
+
+def get_message(from_response):
+    return json.loads(from_response.data)["message"]
 
 
 def assert_that(response, is_equal_to):
