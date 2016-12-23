@@ -1,1 +1,8 @@
 .cache
+.idea
+Supprimerait .idea/
+Supprimerait application/__init__.pyc
+Supprimerait application/resources.pyc
+Supprimerait hipchat_client.pyc
+Supprimerait tests/__init__.pyc
+Supprimerait tests/__pycache__/

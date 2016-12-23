@@ -1,6 +1,5 @@
 def random_person(from_room):
-    # TODO implement me
-    return "blah"
+    pass
     
 def random_insult():
     pass
