@@ -7,7 +7,7 @@ from application import service
 @app.route("/", methods=["POST"])
 def blame():
     
-    command = json.loads(request.data)['item']['message']['message']
+    command = _get_command()
     arguments = command.split(" ")[1:]
     
     guilty_persons = set()
@@ -17,7 +17,11 @@ def blame():
     
     guilty = ' and '.join(guilty_persons) if guilty_persons else '@' + service.random_person(from_room='toto')
     
-    message = "I blame %s! >:-(" % guilty
+    message_format = "I blame %s! >:-("
+    if '--with-violence' in arguments:
+        message_format = "Hey %s! " + service.random_insult() +  " (megusta)(thumbsup)"
+        
+    message = message_format % guilty
     
     return json.jsonify({
             "color": "red",
@@ -25,3 +29,7 @@ def blame():
             "notify": False,
             "message_format": "text"
         })
+
+
+def _get_command():
+    return json.loads(request.data)['item']['message']['message']

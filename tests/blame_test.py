@@ -11,8 +11,8 @@ class Blame(unittest.TestCase):
 
 
     @patch("application.service.random_person")
-    def test_should_blame_someone_from_the_room_by_default(self, random_person_mock=None):
-        random_person_mock.return_value = "someone"
+    def test_should_blame_someone_from_the_room_by_default(self, person_picker_mock=None):
+        person_picker_mock.return_value = "someone"
 
         response = self.bot_client.send_message("/blame")
 
@@ -39,12 +39,21 @@ class Blame(unittest.TestCase):
           
       
     @patch("application.service.random_person")
-    def test_should_blame_someone_from_the_room_when_only_an_at_is_present(self, random_person_mock):
-        random_person_mock.return_value = "someone"
+    def test_should_blame_someone_from_the_room_when_only_an_at_is_present(self, person_picker_mock):
+        person_picker_mock.return_value = "someone"
         
         response = self.bot_client.send_message("/blame @")
         
         assert_that(response, is_equal_to="I blame @someone! >:-(")
         
     
-    
+    @patch("application.service.random_insult")
+    @patch("application.service.random_person")
+    def test_should_insult_someone_from_the_room_when_violence_is_requested(self, person_picker_mock, insulter_mock):
+        person_picker_mock.return_value = "someone"
+        insult = "I'm glad to see you're not letting your education get in the way of your ignorance."
+        insulter_mock.return_value = insult
+        
+        response = self.bot_client.send_message("/blame --with-violence")
+        
+        assert_that(response, is_equal_to="Hey @someone! " + insult + " (megusta)(thumbsup)")
