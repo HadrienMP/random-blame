@@ -10,11 +10,13 @@ bot_client = BotClient()
 
 @patch("application.service.random_person")
 def test_should_blame_someone_from_the_room_by_default(person_picker_mock=None):
+    room = "666"
     person_picker_mock.return_value = "someone"
 
-    response = bot_client.send_message("/blame")
+    response = bot_client.send_message("/blame", from_room=room)
 
     assert_that(response, is_equal_to="I blame @someone! >:-(")
+    person_picker_mock.assert_called_once_with(from_room=room)
 
 
 def test_should_blame_the_person_given_after_the_command():
